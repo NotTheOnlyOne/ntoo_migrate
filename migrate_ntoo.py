@@ -1,8 +1,12 @@
-import json
+import json 
+import csv
 
-def extract_tweet_data(json_str):
+csv_file_path = "tweets.csv"
+file_path = "fullTweetsData.json"
+fieldnames = ["username","text","url"]
+
+def extract_tweet_data(tweet):
     try:
-        tweet = json.loads(json_str)
         
         # Extract text
         text = tweet['retweeted_status']['extended_tweet']['full_text'] 
@@ -207,11 +211,33 @@ tweet_json = '''
 }
 '''
 
-# Extract tweet data
-text, url, username = extract_tweet_data(tweet_json)
 
-# Print the extracted data
-print("Text:", text)
-print("URL:", url)
-print("Username:", username)
+# Load the JSON data from the file
+with open(file_path, 'r') as json_file:
+    data = json.load(json_file)
 
+
+csv_data = []
+
+# Now you can work with the loaded data
+# For example, you can access individual tweets like this:
+for tweet in data:
+    # Extract tweet data
+    text, url, username = extract_tweet_data(tweet)
+
+	
+    csv_data_row = { 
+		"text" : text,
+		"url" : url,
+		"username" : username
+	       }
+
+    csv_data.append(csv_data_row)
+
+# Write the data to the CSV file
+with open(csv_file_path, 'w', newline='') as csv_file:
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
+    writer.writeheader()
+    writer.writerows(csv_data)
+
+print(len(csv_data))
