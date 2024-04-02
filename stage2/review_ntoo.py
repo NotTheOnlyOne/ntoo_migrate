@@ -1,3 +1,33 @@
+
+import requests
+from bs4 import BeautifulSoup
+
+def get_url(url):
+
+    url = url.replace("\n", "")
+
+    # Send a GET request to the URL
+    response = requests.get(url)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Parse the HTML content
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Find the title tag and get its text
+        title = soup.title.text.strip()
+        
+        # Print the title
+        print("Title:", title)
+        print("URL:", url)
+        
+        # Print the HTML content
+        #print("HTML Content:")
+        #print(response.text)
+    else:
+        print("Failed to retrieve HTML content. Status code:", response.status_code, url)
+    
+
 def read_tsv_file(filename):
     
     no_title = 0
@@ -15,10 +45,10 @@ def read_tsv_file(filename):
 
                 if title == "" and details =="":
                     no_title = no_title + 1
-                    print(data)
                 if title == "Snapshot":
                     snapshot = snapshot + 1
                     print(data)
+                    get_url(link)
 
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found.")
