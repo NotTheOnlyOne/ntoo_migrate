@@ -43,12 +43,14 @@ def read_tsv_file(filename):
                 details = data[2]
                 link = data[3]
 
+                if title.startswith("Link"):
+                    print(title)
                 if title == "" and details =="":
                     no_title = no_title + 1
                 if title == "Snapshot":
                     snapshot = snapshot + 1
-                    print(data)
-                    get_url(link)
+                    #print(data)
+                    #get_url(link)
 
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found.")
