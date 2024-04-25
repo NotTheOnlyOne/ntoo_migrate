@@ -17,5 +17,5 @@ print("Days until the end of the year:", days_until_end_of_year)
 
 items_per_day = (target - num_items)/days_until_end_of_year
 
-print(items_per_day)
+print('{0:.2f}'.format(items_per_day))
 
